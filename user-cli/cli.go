@@ -4,10 +4,10 @@ import (
 	"log"
 	"os"
 
+	pb "github.com/SlightlyCyborg/resource-io.shipper-example/user-service/auth"
 	microclient "github.com/micro/go-micro/client"
 	"github.com/micro/go-micro/cmd"
 	"golang.org/x/net/context"
-	pb "resource-io/shipper/user-service/auth"
 )
 
 func main() {
