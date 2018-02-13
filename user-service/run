@@ -1,2 +1,2 @@
 #!/bin/bash
-./user-service
+./user-service --registry=mdns
