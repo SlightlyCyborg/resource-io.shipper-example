@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/micro/go-micro"
 	"log"
-	pb "resource-io/user-service/auth"
+	pb "resource-io/shipper/user-service/auth"
 )
 
 func main() {

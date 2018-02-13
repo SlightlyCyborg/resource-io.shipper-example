@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
-	pb "resource-io/user-service/auth"
+	pb "resource-io/shipper/user-service/auth"
 )
 
 var (

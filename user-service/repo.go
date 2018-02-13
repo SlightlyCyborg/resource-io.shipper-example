@@ -2,7 +2,7 @@ package main
 
 import (
 	"errors"
-	pb "resource-io/user-service/auth"
+	pb "resource-io/shipper/user-service/auth"
 )
 
 type Repository interface {

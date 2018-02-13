@@ -8,7 +8,7 @@ import (
 	micro "github.com/micro/go-micro"
 	"golang.org/x/crypto/bcrypt"
 	"golang.org/x/net/context"
-	pb "resource-io/user-service/auth"
+	pb "resource-io/shipper/user-service/auth"
 )
 
 const topic = "user.created"
