@@ -1,18 +1,17 @@
 package main
 
 import (
-	pb "github.com/EwanValentine/shippy/vessel-service/proto/vessel"
 	"golang.org/x/net/context"
-	"gopkg.in/mgo.v2"
+	pb "resource-io/shipper/vessel-service/proto/vessel"
 )
 
 // Our gRPC service handler
 type service struct {
-	session *mgo.Session
+	repo Repository
 }
 
 func (s *service) GetRepo() Repository {
-	return &VesselRepository{s.session.Clone()}
+	return s.repo
 }
 
 func (s *service) FindAvailable(ctx context.Context, req *pb.Specification, res *pb.Response) error {

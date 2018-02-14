@@ -26,7 +26,7 @@ func (repo *InMemVesselRepostiory) FindAvailable(spec *pb.Specification) (*pb.Ve
 	required_vessel = nil
 
 	for _, vessel = range repo.vessels {
-		if vessel.Capacity == spec.Capacity && vessel.MaxWeight == spec.MaxWeight {
+		if vessel.Capacity >= spec.Capacity && vessel.MaxWeight >= spec.MaxWeight {
 			required_vessel = vessel
 		}
 	}

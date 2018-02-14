@@ -2,8 +2,6 @@ package main
 
 import (
 	"fmt"
-	"os"
-
 	"github.com/micro/go-micro"
 	pb "resource-io/shipper/vessel-service/proto/vessel"
 )
@@ -13,7 +11,6 @@ const (
 )
 
 func createDummyData(repo Repository) {
-	defer repo.Close()
 	vessels := []*pb.Vessel{
 		{Id: "vessel001", Name: "The Dagney Taggart", MaxWeight: 200000, Capacity: 500},
 	}
@@ -23,8 +20,7 @@ func createDummyData(repo Repository) {
 }
 
 func main() {
-
-	host := os.Getenv("DB_HOST")
+	fmt.Println("In main")
 
 	repo := &InMemVesselRepostiory{}
 
@@ -37,10 +33,12 @@ func main() {
 
 	srv.Init()
 
+
 	// Register our implementation with
-	pb.RegisterVesselServiceHandler(srv.Server(), &service{session})
+	pb.RegisterVesselServiceHandler(srv.Server(), &service{repo})
 
 	if err := srv.Run(); err != nil {
+		fmt.Print("Error: ")
 		fmt.Println(err)
 	}
 }
