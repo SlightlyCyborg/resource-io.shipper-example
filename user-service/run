@@ -1,5 +1,5 @@
 #!/bin/bash
-docker run --net="host" \
+docker run -d --net="host" \
 		  -p 50051 \
 		  -e DB_HOST=localhost \
 		  -e DB_PASS=password \
