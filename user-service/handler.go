@@ -80,14 +80,17 @@ func (srv *service) Create(ctx context.Context, req *pb.User, res *pb.Response) 
 
 func (srv *service) ValidateToken(ctx context.Context, req *pb.Token, res *pb.Token) error {
 
+	log.Println("Validating token")
 	// Decode token
 	claims, err := srv.tokenService.Decode(req.Token)
 
+	log.Println(claims)
 	if err != nil {
 		return err
 	}
 
-	if claims.User.Id == "" {
+	if claims.User.Name == "" {
+		log.Println("Invalid user")
 		return errors.New("invalid user")
 	}
 
