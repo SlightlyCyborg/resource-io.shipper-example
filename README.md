@@ -17,12 +17,12 @@ Follow the [official install instructions](https://docs.docker.com/install/)
 
 Install go [gRPC](https://grpc.io/docs/quickstart/go.html)
 
-```
+```bash
 go get -u google.golang.org/grpc
 ```
 
 Install proto binary from github
-```
+```bash
 mkdir -p ~/3rd-party-repos 
 cd ~/3rd-party-repos
 
@@ -34,28 +34,28 @@ cp protoc-3/bin/protoc ~/bin
 ```
 
 Make sure protoc is now on PATH
-```
+```bash
 protoc --version
 ```
 
 
 If `command not found` make sure `~/bin` is on path
-```
+```bash
 printf 'export PATH="$PATH":~/bin' >> ~/.bash_profile
 ```
 
 Install protoc go plugin
-```
+```bash
 go get -u github.com/golang/protobuf/protoc-gen-go
 ```
 
 Make sure protoc-gen-go is on PATH
-```
+```bash
 which protoc-gen-go
 ```
 ...which should return the path to `protoc-gen-go`. If it doesn't then export Go path
 
-```
+```bash
 printf 'export PATH=$PATH:$GOPATH/bin' >> ~/.bash_profile
 ```
 
@@ -63,7 +63,7 @@ printf 'export PATH=$PATH:$GOPATH/bin' >> ~/.bash_profile
 
 Install the go-micro protobuf plugins
 
-```
+```bash
 go get -u github.com/micro/protobuf/{proto,protoc-gen-go}
 ```
 
@@ -71,7 +71,7 @@ go-micro itself will be installed dynamicall when `go get` looks at the source f
 
 We still want to install the micro command-line tools though
 
-```
+```bash
 go get -u github.com/micro/micro
 ```
 
