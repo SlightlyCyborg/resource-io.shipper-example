@@ -1,2 +1,4 @@
 #!/bin/bash
 docker build -t user-service .
+cd auth
+./compile.p.sh
