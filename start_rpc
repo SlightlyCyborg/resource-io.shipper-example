@@ -1,0 +1,1 @@
+docker run -e MICRO_REGISTRY=mdns -p 8080:8080 microhq/micro api --handler=rpc --address=:8080 --namespace=go.micro.srv
