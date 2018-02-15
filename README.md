@@ -108,3 +108,24 @@ func (repo *InMemRepo) GetAll() ([]*pb.User, error) {
 }
 ```
 
+### Imports
+
+Most of the imports refer to Ewan's github repo. These need to be changed to refer to our own code
+
+Here is a snippet of the changes (notice the lib aliased as `pb`): 
+
+```golang
+import (
+	"log"
+	"os"
+
+	pb "github.com/SlightlyCyborg/resource-io.shipper-example/user-service/auth"
+	microclient "github.com/micro/go-micro/client"
+	"github.com/micro/go-micro/cmd"
+	"golang.org/x/net/context"
+)
+```
+
+### Build/Run
+
+I did not use Ewans `Makefiles`, instead I made a `build` and a `run` script in each micro service or cli.
