@@ -81,5 +81,30 @@ You also need to install the go-micro docker image
 docker pull microhq/micro
 ```
 
+## Changes made to Ewan's code 
 
+### Repository interface
+
+There are only a few changes I made to Ewan's code. The biggest change is that I write an `InMemRepo` implementation of `interface Repository` to persist the `User`, `Vessel`, and `Consignment` data
+
+Here is a snippet of the `User` implementation of the `InMemRepo`
+
+```go
+type Repository interface {
+	GetAll() ([]*pb.User, error)
+	Get(id string) (*pb.User, error)
+	Create(user *pb.User) error
+	GetByEmail(email string) (*pb.User, error)
+}
+
+//For now, I am only implementing an in memory version of these calls. This is to help me get practice!
+
+type InMemRepo struct {
+	users []*pb.User
+}
+
+func (repo *InMemRepo) GetAll() ([]*pb.User, error) {
+	return repo.users, nil
+}
+```
 
