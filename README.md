@@ -1,5 +1,7 @@
 # Resource IO microservice recipe
 
+This is a repository that implements the ideas expressed in Ewan Valentine's Go microservice blog series: [part1](https://ewanvalentine.io/microservices-in-golang-part-1/), [part2](https://ewanvalentine.io/microservices-in-golang-part-2/), [part3](https://ewanvalentine.io/microservices-in-golang-part-3/), [part4](https://ewanvalentine.io/microservices-in-golang-part-4/), [part5](https://ewanvalentine.io/microservices-in-golang-part-5/), [part6](https://ewanvalentine.io/microservices-in-golang-part-6/), [part7](https://ewanvalentine.io/microservices-in-golang-part-7/)
+
 ## Dependencies
 
 Make sure go version is >= 1.6
