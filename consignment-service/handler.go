@@ -65,6 +65,7 @@ func (s *service) CreateConsignment(ctx context.Context, req *pb.CreateRequest, 
 
 func (s *service) GetConsignments(ctx context.Context, req *pb.GetRequest, res *pb.Response) error {
 
+	log.Println(req.Token)
 	auth_err := auth(req.Token)
 	if auth_err != nil {
 		return auth_err

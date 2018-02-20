@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"errors"
 	"io/ioutil"
 	"log"
 	"os"
@@ -10,7 +9,6 @@ import (
 	pb "github.com/SlightlyCyborg/resource-io.shipper-example/consignment-service/proto/consignment"
 	microclient "github.com/micro/go-micro/client"
 	"github.com/micro/go-micro/cmd"
-	"github.com/micro/go-micro/metadata"
 	"golang.org/x/net/context"
 )
 
@@ -41,12 +39,7 @@ func main() {
 	var token string
 	log.Println(os.Args)
 
-	if len(os.Args) < 3 {
-		log.Fatal(errors.New("Not enough arguments, expecing file and token."))
-	}
-
-	file = os.Args[1]
-	token = os.Args[2]
+	token = os.Args[1]
 
 	consignment, err := parseFile(file)
 
@@ -54,17 +47,14 @@ func main() {
 		log.Fatalf("Could not parse file: %v", err)
 	}
 
-	ctx := metadata.NewContext(context.Background(), map[string]string{
-		"token": token,
-	})
-
-	r, err := client.CreateConsignment(ctx, consignment)
+	r, err := client.CreateConsignment(context.TODO(), &pb.CreateRequest{Token: token, Consignment: consignment})
 	if err != nil {
 		log.Fatalf("Could not create: %v", err)
 	}
 	log.Printf("Created: %t", r.Created)
 
-	getAll, err := client.GetConsignments(ctx, &pb.GetRequest{})
+	log.Println(token)
+	getAll, err := client.GetConsignments(context.TODO(), &pb.GetRequest{Token: token})
 	if err != nil {
 		log.Fatalf("Could not list consignments: %v", err)
 	}
