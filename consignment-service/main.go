@@ -3,7 +3,6 @@ package main
 import (
 
 	// Import the generated protobuf code
-	"errors"
 	"fmt"
 	"log"
 
@@ -13,8 +12,6 @@ import (
 	vesselProto "github.com/SlightlyCyborg/resource-io.shipper-example/vessel-service/proto/vessel"
 	"github.com/micro/go-micro"
 	"github.com/micro/go-micro/client"
-	"github.com/micro/go-micro/metadata"
-	"github.com/micro/go-micro/server"
 	pb "resource-io/shipper/consignment-service/proto/consignment"
 )
 
@@ -26,7 +23,6 @@ func main() {
 		// This name must match the package name given in your protobuf definition
 		micro.Name("go.micro.srv.consignment"),
 		micro.Version("latest"),
-		micro.WrapHandler(AuthWrapper),
 	)
 
 	vesselClient := vesselProto.NewVesselServiceClient("go.micro.srv.vessel", srv.Client())
@@ -44,27 +40,17 @@ func main() {
 	}
 }
 
-func AuthWrapper(fn server.HandlerFunc) server.HandlerFunc {
-	return func(ctx context.Context, req server.Request, resp interface{}) error {
-		meta, ok := metadata.FromContext(ctx)
-		if !ok {
-			return errors.New("no auth meta-data found in request")
-		}
-		token := meta["Token"]
-		log.Println("Authenticating with token: ", token)
-
-		// Auth here
-		authClient := userService.NewAuthClient("go.micro.srv.auth", client.DefaultClient)
-		authResp, err := authClient.ValidateToken(ctx, &userService.Token{
-			Token: token,
-		})
-		log.Println("Auth resp:", authResp)
-		log.Println("Err:", err)
-		if err != nil {
-			return err
-		}
-
-		err = fn(ctx, req, resp)
+func auth(token string) error {
+	// Auth here
+	authClient := userService.NewAuthClient("go.micro.srv.auth", client.DefaultClient)
+	authResp, err := authClient.ValidateToken(context.TODO(), &userService.Token{
+		Token: token,
+	})
+	log.Println("Auth resp:", authResp)
+	log.Println("Err:", err)
+	if err != nil {
 		return err
 	}
+
+	return nil
 }

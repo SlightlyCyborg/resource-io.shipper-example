@@ -24,17 +24,22 @@ func (s *service) GetRepo() Repository {
 // CreateConsignment - we created just one method on our service,
 // which is a create method, which takes a context and a request as an
 // argument, these are handled by the gRPC server.
-func (s *service) CreateConsignment(ctx context.Context, req *pb.Consignment, res *pb.Response) error {
+func (s *service) CreateConsignment(ctx context.Context, req *pb.CreateRequest, res *pb.Response) error {
 	repo := s.GetRepo()
 	defer repo.Close()
 
-	log.Println("Creating: ", req)
+	log.Println("Creating: ", req.Consignment)
+
+	auth_err := auth(req.Token)
+	if auth_err != nil {
+		return auth_err
+	}
 
 	// Here we call a client instance of our vessel service with our consignment weight,
 	// and the amount of containers as the capacity value
 	vesselResponse, err := s.vesselClient.FindAvailable(context.Background(), &vesselProto.Specification{
-		MaxWeight: req.Weight,
-		Capacity:  int32(len(req.Containers)),
+		MaxWeight: req.Consignment.Weight,
+		Capacity:  int32(len(req.Consignment.Containers)),
 	})
 	if err != nil {
 		return err
@@ -43,10 +48,10 @@ func (s *service) CreateConsignment(ctx context.Context, req *pb.Consignment, re
 
 	// We set the VesselId as the vessel we got back from our
 	// vessel service
-	req.VesselId = vesselResponse.Vessel.Id
+	req.Consignment.VesselId = vesselResponse.Vessel.Id
 
 	// Save our consignment
-	err = repo.Create(req)
+	err = repo.Create(req.Consignment)
 	if err != nil {
 		return err
 	}
@@ -54,11 +59,17 @@ func (s *service) CreateConsignment(ctx context.Context, req *pb.Consignment, re
 	// Return matching the `Response` message we created in our
 	// protobuf definition.
 	res.Created = true
-	res.Consignment = req
+	res.Consignment = req.Consignment
 	return nil
 }
 
 func (s *service) GetConsignments(ctx context.Context, req *pb.GetRequest, res *pb.Response) error {
+
+	auth_err := auth(req.Token)
+	if auth_err != nil {
+		return auth_err
+	}
+
 	repo := s.GetRepo()
 	defer repo.Close()
 
